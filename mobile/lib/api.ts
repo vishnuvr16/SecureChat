@@ -1,6 +1,6 @@
 import { getAccessToken, saveAccessToken } from "./storage"
 
-const API_BASE = "http://10.117.159.156:3000/api"
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://10.182.60.156:3000/api"
 
 interface ApiResponse<T> {
   data?: T

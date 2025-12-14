@@ -81,7 +81,7 @@ export function QRLoginModal({ isOpen, onClose }: QRLoginModalProps) {
       const qrString = JSON.stringify({
         token: data.qrToken,
         master: masterKey,
-        baseUrl: "http://10.117.159.156:3000/api",
+        baseUrl: "http://10.182.60.156:3000/api",
         type: "mobile-login",
         timestamp: Date.now(),
       })
