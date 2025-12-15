@@ -48,7 +48,7 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
         id: m.id,
         ciphertext: m.ciphertext,
         iv: m.iv,
-        sentAt: m.sentAt.toISOString(),
+        sentAt: new Date(m.sentAt).toISOString(),
         deviceId: m.deviceId,
         synced: m.synced,
         // No plaintext included

@@ -22,45 +22,6 @@ A production-ready, full-stack web chat application with end-to-end encryption, 
 - **Encryption**: Web Crypto API (AES-256-GCM, PBKDF2-SHA256)
 - **Authentication**: JWT + Refresh Tokens, HTTP-only cookies
 
-### Project Structure
-\`\`\`
-root/
-├── app/
-│   ├── api/                    # Backend API routes (8 endpoints)
-│   │   ├── auth/
-│   │   │   ├── register/route.ts
-│   │   │   ├── login/route.ts
-│   │   │   ├── refresh/route.ts
-│   │   │   ├── logout/route.ts
-│   │   │   ├── qr-init/route.ts       # For future mobile
-│   │   │   └── qr-login/route.ts      # For future mobile
-│   │   └── messages/
-│   │       ├── send/route.ts
-│   │       └── since/route.ts
-│   ├── auth/                   # Authentication pages
-│   │   ├── login/page.tsx
-│   │   └── register/page.tsx
-│   ├── chat/page.tsx           # Main chat interface
-│   ├── settings/backup/page.tsx # Backup & restore
-│   └── layout.tsx
-├── components/
-│   ├── auth-form.tsx
-│   ├── chat-interface.tsx
-│   └── backup-interface.tsx
-├── lib/
-│   ├── db.ts                   # MongoDB connection
-│   ├── redis.ts                # Redis client
-│   ├── crypto.ts               # Encryption utilities
-│   ├── auth.ts                 # JWT & password hashing
-│   ├── types.ts                # TypeScript types
-│   ├── storage.ts              # Local storage helpers
-│   └── sync.ts                 # Message sync logic
-├── package.json
-├── tsconfig.json
-├── next.config.mjs
-└── .env.example
-\`\`\`
-
 ## Getting Started
 
 ### Prerequisites
@@ -71,23 +32,24 @@ root/
 
 ### Installation & Setup
 
-\`\`\`bash
+```bash
 # Install dependencies
 npm install
-
+```
 # Create environment file
 cp .env.example .env.local
-
+```
 # Configure environment variables in .env.local:
 # MONGODB_URI=mongodb://localhost:27017/private-chat
 # REDIS_URL=redis://localhost:6379
 # JWT_SECRET=your-super-secret-jwt-key
 # REFRESH_TOKEN_SECRET=your-super-secret-refresh-key
 # NEXT_PUBLIC_API_URL=http://localhost:3000
-
+```
 # Run development server
+```
 npm run dev
-\`\`\`
+```
 
 Access at `http://localhost:3000`
 
@@ -164,62 +126,95 @@ All endpoints require `Authorization: Bearer <access_token>` header (except auth
 ### Authentication Endpoints
 
 **POST /api/auth/register**
-\`\`\`json
-Request: { "email": "user@example.com", "password": "password123" }
-Response: { "accessToken": "...", "user": { "id": "...", "email": "...", "encryptionSalt": "..." } }
-\`\`\`
+
+Request:
+```json
+{ "email": "user@example.com", "password": "password123" }
+```
+Response: 
+```json
+{ "accessToken": "...", "user": { "id": "...", "email": "...", "encryptionSalt": "..." } }
+```
 
 **POST /api/auth/login**
-\`\`\`json
-Request: { "email": "user@example.com", "password": "password123" }
-Response: { "accessToken": "...", "user": { "id": "...", "email": "...", "encryptionSalt": "..." } }
-\`\`\`
+
+Request: 
+```json
+{ "email": "user@example.com", "password": "password123" }
+```
+Response: 
+```json
+{ "accessToken": "...", "user": { "id": "...", "email": "...", "encryptionSalt": "..." } }
+```
 
 **POST /api/auth/refresh**
-\`\`\`json
-Request: {} (reads refresh token from HTTP-only cookie)
-Response: { "accessToken": "..." }
-\`\`\`
+Request: 
+```json
+{} (reads refresh token from HTTP-only cookie)
+```
+Response: 
+```json
+{ "accessToken": "..." }
+```
 
 **POST /api/auth/logout**
-\`\`\`json
-Request: {}
-Response: { "success": true }
-\`\`\`
+Request: 
+```json
+{}
+```
+Response:
+```json
+{ "success": true }
+```
 
 **POST /api/auth/qr-init** (For future mobile)
-\`\`\`json
-Request: {}
-Response: { "qrToken": "...", "qrData": "..." }
-\`\`\`
+
+Request: 
+```json
+{}
+```
+
+Response: 
+```json
+{ "qrToken": "...", "qrData": "..." }
+```
 
 **POST /api/auth/qr-login** (For future mobile)
-\`\`\`json
-Request: { "token": "qr_token_here", "masterKey": "..." }
-Response: { "accessToken": "...", "refreshToken": "...", "user": {...} }
-\`\`\`
+Request: 
+```json
+{ "token": "qr_token_here", "masterKey": "..." }
+```
+Response: 
+```json
+{ "accessToken": "...", "refreshToken": "...", "user": {...} }
+```
 
 ### Message Endpoints
 
 **POST /api/messages/send**
-\`\`\`json
-Request: { "ciphertext": "base64_encrypted_text", "iv": "base64_iv", "sentAt": "2025-01-01T12:00:00Z" }
-Response: { "id": "message_id", "sentAt": "2025-01-01T12:00:00Z" }
-\`\`\`
+Request: 
+```json
+{ "ciphertext": "base64_encrypted_text", "iv": "base64_iv", "sentAt": "2025-01-01T12:00:00Z" }
+```
+Response: 
+```json
+{ "id": "message_id", "sentAt": "2025-01-01T12:00:00Z" }
+```
 
 **GET /api/messages/since?timestamp=2025-01-01T12:00:00Z**
-\`\`\`json
-Response: { 
+Response:
+```json
+{ 
   "messages": [
     { "id": "...", "ciphertext": "...", "iv": "...", "sentAt": "...", "deviceId": "web" }
   ] 
 }
-\`\`\`
+```
 
 ## Database Schema
 
 ### users collection
-\`\`\`javascript
+```javascript
 {
   _id: ObjectId,
   email: string,                 // unique
@@ -227,10 +222,10 @@ Response: {
   encryptionSalt: string,        // base64 hex, used for PBKDF2
   createdAt: Date
 }
-\`\`\`
+```
 
 ### sessions collection
-\`\`\`javascript
+```javascript
 {
   _id: ObjectId,
   userId: ObjectId,              // reference to users
@@ -239,10 +234,10 @@ Response: {
   createdAt: Date,
   expiresAt: Date                // 7 days
 }
-\`\`\`
+```
 
 ### messages collection
-\`\`\`javascript
+```javascript
 {
   _id: ObjectId,
   userId: ObjectId,              // reference to users
@@ -252,7 +247,7 @@ Response: {
   sentAt: Date,
   createdAt: Date
 }
-\`\`\`
+```
 
 ### Redis keys
 - `qr_login:{token}` → `{ userId, createdAt }` (TTL: 60 seconds)
@@ -260,13 +255,13 @@ Response: {
 ## Environment Variables
 
 Create `.env.local`:
-\`\`\`
+```
 MONGODB_URI=mongodb://localhost:27017/private-chat
 REDIS_URL=redis://localhost:6379
 JWT_SECRET=your-secret-change-this
 REFRESH_TOKEN_SECRET=your-refresh-secret-change-this
 NEXT_PUBLIC_API_URL=http://localhost:3000
-\`\`\`
+```
 
 ## How It Works: Token Refresh
 
@@ -317,10 +312,10 @@ To add React Native mobile (Phase 2):
 ## Development
 
 ### Build for Production
-\`\`\`bash
+```bash
 npm run build
 npm run start
-\`\`\`
+```
 
 ### Environment for Production
 - Use production MongoDB and Redis instances
@@ -350,15 +345,11 @@ npm run start
 ## Debugging
 
 Enable debug logs by setting in browser console:
-\`\`\`javascript
+```javascript
 localStorage.setItem('DEBUG', '1')
-\`\`\`
+```
 
 Check Network tab in DevTools for API calls and response times.
-
-## License
-
-MIT
 
 ## Support & Feedback
 
@@ -369,4 +360,3 @@ For issues, feature requests, or contributions, please open an issue on the repo
 **Last Updated**: December 2025  
 **Version**: 1.0  
 **Status**: Production Ready - Web Version Complete  
-**Mobile APIs**: Ready for Phase 2 Integration
