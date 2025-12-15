@@ -81,6 +81,13 @@ npx eas build -p android --profile development
 Enter your Expo credentials when prompted.After the build completes, scan the QR code provided in the terminal/web link.
 Download and install the APK (Development Client) on your Android phone.
 
+# Create environment file
+cp .env.example .env.local
+```
+# Configure environment variables in .env.local:
+# EXPO_PUBLIC_API_BASE=http://localhost:3000/api
+```
+
 ## 4️⃣ Start the Development ServerBashcd mobile
 
 ```bash
@@ -113,3 +120,14 @@ Use the one shown in your terminal.🔁
 | **Server Data** | The server is **"zero-knowledge"**—it only stores encrypted data (`ciphertext + IV`) and cannot read any messages. |
 | **QR Token Security** | QR codes for mobile login are designed to be **short-lived and single-use**. |
 | **Session Security** | Access tokens expire automatically and are refreshed securely using refresh tokens. |
+
+## Support & Feedback
+
+For issues, feature requests, or contributions, please open an issue on the repository.
+
+---
+**Youtube Video Link**: https://youtu.be/jcNpetj_E7E
+**Last Updated**: December 2025  
+**Version**: 1.0  
+**Status**: Production Ready - Android Version Complete 
+**Author** : Vishnu Vardhan Reddy
