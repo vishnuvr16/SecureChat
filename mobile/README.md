@@ -127,6 +127,7 @@ For issues, feature requests, or contributions, please open an issue on the repo
 
 ---
 **Youtube Video Link**: https://youtu.be/jcNpetj_E7E
+
 **Last Updated**: December 2025  
 **Version**: 1.0  
 **Status**: Production Ready - Android Version Complete 
