@@ -356,7 +356,6 @@ Check Network tab in DevTools for API calls and response times.
 For issues, feature requests, or contributions, please open an issue on the repository.
 
 ---
-**Youtube Video Link**: https://youtu.be/jcNpetj_E7E 
 
 **Last Updated**: December 2025  
 **Version**: 1.0  
